@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Proyecto Final</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="style.css" rel="stylesheet">
+    </head>
+    <body>
+        <div id="encabezado" class="encabezado">
+            <img src="LogoUCLM.png" alt="logo" class="logo">
+            <div id="titulo">
+                <h1>Trabajo Final</h1>
+                <h2>Bienbenido a la pagina del estudio</h2>
+            </div>
+            <div id="grupo" class="grupo">
+                <p>Adrián Ruiz Esteban</p>
+                <p>Anderson Marroquín Rivas</p>
+                <p>Mario Martin Alonso</p>
+                <p>Pablo Valle Nieto</p>
+            </div>
+        </div>
+        <p>Esta es la página web donde se muestran los datos del estudio</p>
+        <div id="contenedor">
+            <!-- La tabla se añadirá aquí -->
+        </div>
+        <script>
+            // Obtiene el archivo CSV usando fetch
+            fetch('datos.csv')
+            .then(response => response.text())
+            .then(text => {
+                // Divide el contenido del archivo en líneas
+                const lines = text.split('\n');
+        
+                // Transforma cada línea en una fila de la tabla
+                const rows = lines.map(line => {
+                const cells = line.split(',');
+                return `<tr><td>${cells.join('</td><td>')}</td></tr>`;
+                });
+        
+                // Añade la tabla al contenedor
+                const table = `<table>${rows.join('')}</table>`;
+                document.getElementById('contenedor').innerHTML = table;
+            });
+        </script>
+        
+        <style>
+            table {
+            display: block;
+            width: 100%;
+            overflow-x: auto;
+            }
+        
+            td {
+            padding: 10px;
+            border: 1px solid #ccc;
+            }
+        </style>
+  </body>
+</html>
