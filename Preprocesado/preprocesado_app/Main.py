@@ -125,10 +125,15 @@ def data_clean():
 
     # Limpieza de dataset de tabla_import
 
-    df = pd.read_csv('./files/tabla_import.csv', sep = ";", decimal = ',', encoding='iso8859_15')
+    df = pd.read_csv('tabla_import.csv', sep = ";", decimal = ',', encoding='iso8859_15')
+
+    # Resolvemos problemas de tipos
+    df = df.apply(lambda x: x.str.strip() if x.dtype == "object" else x)
+    df = df.convert_dtypes()
+
     df['flow'] = df['flow'].astype('category')
     df['reporter'] = df['reporter'].astype('category')
-    df.value= df.value.replace({":":0})
+    df['value']= df['value'].replace(':', '0')
 
     translator = GoogleTranslator(source="en", target="es")
 
@@ -139,8 +144,6 @@ def data_clean():
     df1.insert(7, "VALUE_IN_EUROS", df1.value, True)
     df1.insert(8, "QUANTITY_IN_100KG", df2.value, True)
 
-    df1.index = df1.index.map(lambda x: x.strip())
-
     df1.VALUE_IN_EUROS = df1.VALUE_IN_EUROS.replace({' ':''}, regex=True)
     df1.QUANTITY_IN_100KG = df1.QUANTITY_IN_100KG.replace({' ':''}, regex=True)
     df1['VALUE_IN_EUROS'] = df1['VALUE_IN_EUROS'].astype(int)
@@ -149,19 +152,17 @@ def data_clean():
     del df1['indicators']
     del df1['value']
 
-    df1.isnull().values.any()
-
     df1.set_index(['period'], inplace=True)
 
-    # df1 = df1.drop('Jan.-Dec. 2018')
-    # df1 = df1.drop('Jan.-Dec. 2019')
-    # df1 = df1.drop('Jan.-Dec. 2020')
+    df1 = df1.drop('Jan.-Dec. 2018')
+    df1 = df1.drop('Jan.-Dec. 2019')
+    df1 = df1.drop('Jan.-Dec. 2020')
 
     df1 = df1.reset_index()
 
     counts = df1.groupby('product').size()
     for i in counts.index:
-        df1.product = df1.product.replace({i:translator.translate(i)})
+        df1['product'] = df1['product'].replace({i:translator.translate(i)})
     df1 = df1.drop(columns=['partner'])
 
     df1 = df1.convert_dtypes()
@@ -178,9 +179,9 @@ def data_clean():
     df1['pais'] = df1['pais'].astype('string')
 
     # Aplica la función "convert_month_to_number" a la columna "fecha" usando la función .apply()
-    #df1["fecha"] = df1["fecha"].apply(convert_month_to_number)
+    df1["fecha"] = df1["fecha"].apply(convert_month_to_number)
 
-    df1.to_csv('./files/tabla_import_limpio.csv', sep = ';', index = False)
+    df1.to_csv('tabla_import_limpio.csv', sep = ';', index = False)
 
     # Limpieza de dataset de tabla_covid
 
