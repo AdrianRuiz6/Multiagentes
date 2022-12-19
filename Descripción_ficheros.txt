@@ -1,4 +1,6 @@
-En este fichero de texto se explica qué contenido se puede encontrar en los distintos ficheros estando las 3 fases del proceso ETL: extraccion, preprocesado y subida de archivos (esta última fase se encuentra incorporada en las otras dos fases ya que habia que cargar y descargar datos de la base de datos en ambas).
+En este fichero de texto se explica qué contenido se puede encontrar en los distintos ficheros estando las 3 fases del proceso ETL:
+extraccion, preprocesado y subida de archivos (esta última fase se encuentra incorporada en las otras dos fases ya que habia que cargar y
+descargar datos de la base de datos en ambas).
 
 	-> Extraccion
 	|
