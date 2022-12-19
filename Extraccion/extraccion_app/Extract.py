@@ -37,10 +37,15 @@ def extract_web_scrapping():
     # la configuración de esta instancia remota, que es de Chrome. Finalmente se pone en pantalla
     # completa este navegador.
     caps = webdriver.DesiredCapabilities.CHROME
-    driver = webdriver.Remote(
-        'http://localhost:4444',
-        desired_capabilities=caps
-    )
+    try:
+        driver = webdriver.Remote(
+            'http://localhost:4444',
+            desired_capabilities=caps
+        )
+    except:
+        error = True
+        logging.debug("Error al establecer conexión con Google Chrome.")
+        return error
 
     # Se abre la página del dataset y se esperan dos segundos para darle tiempo a cargarse.
     # pylint: disable=C0301
