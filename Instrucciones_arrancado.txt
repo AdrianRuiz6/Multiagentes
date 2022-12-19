@@ -1,0 +1,42 @@
+Hay que situarse en la carpeta raíz y seguir los pasos descritos a continuación.
+Primero hay que crear la imagen y el contenedor de la base de datos Postgres corriendo de forma permanente y desacoplada.
+
+	docker pull postgres:alpine
+
+	docker run --name postgres_image -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=admin -d -p 5432:5432 postgres:alpine
+
+A continuación, hay que crear la imagen y contenedor de una instalación de Google Chrome que nos va a permitir hacer las peticiones usadas en web scrapping desde el codigo de la fase de extracción. Esto corriendo de forma permanente y desacoplada también.
+
+	docker pull selenium/standalone-chrome:latest
+
+	docker run -d -p 4444:4444 -v /dev/shm:/dev/shm selenium/standalone-chrome:latest
+
+Ahora comenzamos iniciando la imagen y el contenedor de la fase de extracción, que ejecutará el código automáticamente.
+
+	docker build -t extraccion ./Extraccion
+
+	docker run --rm --network=host extraccion
+
+Finalmente, y una vez terminada la ejecución de la anterior fase por completo, iniciamos la imagen y contenedor de la fase de preprocesado, que también ejecutará el código de forma automática.
+
+	docker build -t preprocesado ./Preprocesado
+
+	docker run --rm --network=host preprocesado
+
+Si se quiere comprobar que la base de datos tiene todos los archivos habría que ir a la terminal del contenedor de Postgres y seguir los siguientes pasos:
+	-"psql -U postgres -W".
+	-Escribir el usuario, el cual es "admin".
+	-"\c postgres".
+	-Escribir la contraseña, la cual es "admin".
+	-"\dt" si queremos ver las tablas incluidas en la base de datos. Deberían estar las siguientes (por ahora la tabla "tabla_import_limpio" no funciona y, por lo tanto, no muestra nada):
+		-tabla_ccaa
+		-tabla_covid
+		-tabla_covid_limpio
+		-tabla_excel
+		-tabla_excel_limpio
+		-tabla_import
+		-tabla_import_limpio
+		-tabla_spain_limpio
+	-"SELECT * FROM nombre_tabla;" donde en "nombre_tabla" podemos escribir el nombre de cualquiera de las tablas vistas en el comando anterior para ver su contenido. Una vez muestres una puedes seguir viendo más filas pulsando la tecla "Espacio" y deberás pulsar la "q" para salir del modo visualización y volver al modo en el que estabas al iniciar este paso.
+	
+En el caso de que se quiera volver a iniciar el proceso habria que eliminar la imagen de Postgres para que se eliminen los datos incluidos en la base de datos, ya que produce problemas cuando están repetidos.

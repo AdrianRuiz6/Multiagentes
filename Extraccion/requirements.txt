@@ -1,0 +1,6 @@
+gdown
+selenium
+pandas
+openpyxl
+sqlalchemy
+psycopg2-binary

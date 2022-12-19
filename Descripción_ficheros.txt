@@ -1,0 +1,32 @@
+En este fichero de texto se explica qué contenido se puede encontrar en los distintos ficheros estando las 3 fases del proceso ETL: extraccion, preprocesado y subida de archivos (esta última fase se encuentra incorporada en las otras dos fases ya que habia que cargar y descargar datos de la base de datos en ambas).
+
+	-> Extraccion
+	|
+	|	-> Extract.py: En este fichero se encuentran varios métodos que permiten realizar el proceso de extracción
+	|		de los datos necesarios. El método 'extract_folder_drive' descarga una carpeta de Google Drive dado un link, el
+	|		cual nos sirve para descargar los datasets que estaban en el campus virtual que han sido subidos a una carpeta
+	|		de Google Drive. El método 'extract_web_scrapping' utiliza web scrapping para conectarse a un link, localizar 3 archivos
+	|		y descargarlos. Finalmente el método 'download_file_link' es un método auxiliar utilizado en el anteriormente mencionado
+	|		que descarga un archivo una vez que tiene el link de descarga localizado.
+	|
+	|	-> Main.py: Archivo main que llama a los distintos métodos que se encuentran en el fichero Extract.py para el 
+	|		funcionamiento correcto del código referente al proceso de extracción de datos. Dentro de este fichero
+	|		también nos podemos encontrar la parte del código de subida de los archivos descargados a la base de datos Postgres.
+	|
+	|	-> Dockerfile: En este fichero dockerfile se encuentran los distintos comandos y procesos necesarios para la
+	|		construcción del contenedor de la fase de extracción.
+	|
+	|	-> requirements.txt: Fichero con las librerías empleadas que permite su instalación al crear la imagen.
+
+	-> Preprocesado
+	|
+	|	-> Main.py: En este fichero se encuentran los procesos necesarios para la transformación de los datos obtenidos 
+	|		en la fase de extracción, los cuales se obtienen al principio desde la base de datos. Una vez conseguidos los
+	|		ficheros realizamos la limpieza de dichos datasets con la librería pandas. Tras su limpieza, vuelven a 
+	|		incorporarse en la base de datos con nombres distintos con el fin de poder ser diferenciados. Los nombres 
+	|		de los ficheros limpios se suben a la base de datos como: 'tabla_X_limpio'.
+	|
+	|	-> Dockerfile: En este fichero dockerfile se encuentran los distintos comandos y procesos necesarios para la
+	|		construcción del contenedor de la fase de transformación y limpieza de datos.
+	|
+	|	-> requirements.txt: Fichero con las librerías empleadas que permite su instalación al crear la imagen.

@@ -1,0 +1,4 @@
+pandas
+deep_translator
+sqlalchemy
+psycopg2-binary
