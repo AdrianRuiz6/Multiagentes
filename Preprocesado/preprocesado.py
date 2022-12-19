@@ -83,6 +83,8 @@ def data_clean():
     df1_final['precio_medio_kg'] = df1_final['precio_medio_kg'].str.replace(',', '.').astype(float)
     df1_final['consumo_capita'] = df1_final['consumo_capita'].str.replace(',', '.').astype(float)
 
+    df1_final.to_csv('./files/tabla_spain_limpio.csv', sep = ';', index = False)
+
     # Limpieza de dataset de tabla_excel
 
     # Declaración de variables
@@ -114,6 +116,8 @@ def data_clean():
                     'volumen_miles']] = result[['consumo_hogares',
                                                 'columna_4', 'columna_5', 'columna_6']]
     nueva_tabla_limpia = nueva_tabla_limpia.round(decimals=2)
+
+    nueva_tabla_limpia.to_csv('./files/tabla_excel_limpio.csv', sep = ';', index = False)
 
     # Limpieza de dataset de tabla_import
 
@@ -172,6 +176,8 @@ def data_clean():
     # Aplica la función "convert_month_to_number" a la columna "fecha" usando la función .apply()
     df1["fecha"] = df1["fecha"].apply(convert_month_to_number)
 
+    df1.to_csv('./files/tabla_import_limpio.csv', sep = ';', index = False)
+
     # Limpieza de dataset de tabla_covid
 
     data5 = pd.read_csv('./files/tabla_covid.csv', sep = ";", decimal = ',')
@@ -200,16 +206,16 @@ def data_clean():
     data5 = data5.drop('Oceania')
     data5 = data5.drop('Other')
 
-    data5 = data5[['pais', 'fecha', 'casos', 'muertes', 'incicencia_acumulada']]
+    data5 = data5[['pais', 'fecha', 'casos', 'muertes', 'incidencia_acumulada']]
 
-    data5['incicencia_acumulada']= data5['incicencia_acumulada'].str.replace(',', '.').astype(float)
-    data5['incicencia_acumulada']= data5['incicencia_acumulada'].fillna(0.0)
+    data5['incidencia_acumulada']= data5['incidencia_acumulada'].str.replace(',', '.').astype(float)
+    data5['incidencia_acumulada']= data5['incidencia_acumulada'].fillna(0.0)
 
     data5.set_index(['pais', 'fecha'], inplace=True)
 
     data5['casos_mes'] = data5.groupby(['pais', 'fecha'])['casos'].sum()
     data5['muertes_mes'] = data5.groupby(['pais', 'fecha'])['muertes'].sum()
-    data5['incicencia_media_mes'] = data5.groupby(['pais', 'fecha'])['incicencia_acumulada'].mean()
+    data5['incicencia_media_mes'] = data5.groupby(['pais', 'fecha'])['incidencia_acumulada'].mean()
 
     data5 = data5[['casos_mes', 'muertes_mes', 'incicencia_media_mes']]
     data5 = data5.drop_duplicates()
@@ -222,6 +228,8 @@ def data_clean():
     columns_d5 = data5.columns.tolist()
     columns_d5.insert(0, columns_d5.pop(columns_d5.index('fecha')))
     data5 = data5.reindex(columns = columns_d5)
+
+    data5.to_csv('./files/tabla_covid_limpio.csv', sep = ';', index = False)
 
 def convert_month_to_number(param):
     """
@@ -287,26 +295,20 @@ def upload_to_postgres():
 
     # Crear tabla ds5
     tabla_covid_limpio = '''CREATE TABLE tabla_covid_limpio( \
-        dateRep char(10), \
-        day INTEGER, month INTEGER, year INTEGER, \
-        cases INTEGER, deaths INTEGER, countriesAndTerritories char(50), \
-        geoId char(10), countryterritoryCode char(10), popData2019 char(20), \
-        continentExp char(16), cumulative_cases_per_100000 char(20));'''
+        fecha char(12), pais char(50), casos_mes INTEGER,\
+        muertes_mes INTEGER, incidencia_media_mes float);'''
     cur.execute(tabla_covid_limpio)
 
     # Crear tabla ds4
     tabla_import_limpio = '''CREATE TABLE tabla_import_limpio( \
-        period char(20), reporter char(200), partner char(2), product char(500), \
-        flow char(6), indicators char(20), value char(10));'''
+        fecha char(12), pais char(200), producto char(500), flow char(6),\
+        valor_euros INTEGER, cantidad_100kg INTEGER;'''
     cur.execute(tabla_import_limpio)
 
     # Crear tabla ds1
-    tabla_ccaa_limpio = '''CREATE TABLE tabla_ccaa_limpio( \
-        year char(4), month char(12), ccaa char(30), \
-        producto char(50), volumen_miles char(20), valor_miles char(20), \
-        precio_medio_kg char(20), penetracion_pcto char(20), consumo_capita char(20), \
-        gasto_capita char(20),columna_10 char(10), columna_11 char(10) );'''
-    cur.execute(tabla_ccaa_limpio)
+    tabla_spain_limpio = '''CREATE TABLE tabla_spain_limpio( \
+        fecha char(12), producto char(50), precio_medio_kg float, consumo_capita float);'''
+    cur.execute(tabla_spain_limpio)
 
     # Crear tabla fichero excel
     tabla_excel_limpio = '''CREATE TABLE tabla_excel_limpio( \
@@ -314,10 +316,10 @@ def upload_to_postgres():
     cur.execute(tabla_excel_limpio)
 
     aux_dict = {
-        'Dataset1-Consumo_CCAA.csv':'tabla_ccaa_limpio',
-        'Dataset4-Importaciones_Espana.csv':'tabla_import_limpio',
-        'Dataset5_Coronavirus_cases.csv':'tabla_covid_limpio',
-        'mensual_CCAA_2018.csv':'tabla_excel_limpio'
+        'tabla_spain_limpio.csv':'tabla_spain_limpio',
+        'tabla_import_limpio.csv':'tabla_import_limpio',
+        'tabla_covid_limpio.csv':'tabla_covid_limpio',
+        'tabla_excel_limpio.csv':'tabla_excel_limpio'
     }
 
     # pylint: disable=C0206
