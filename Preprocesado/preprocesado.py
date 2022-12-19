@@ -341,5 +341,3 @@ def upload_to_postgres():
 
     conn.commit()
     conn.close()
-
-    print('Process finished')
