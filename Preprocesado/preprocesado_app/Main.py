@@ -125,7 +125,7 @@ def data_clean():
 
     # Limpieza de dataset de tabla_import
 
-    df = pd.read_csv('tabla_import.csv', sep = ";", decimal = ',', encoding='iso8859_15')
+    df = pd.read_csv('./files/tabla_import.csv', sep = ";", decimal = ',', encoding='iso8859_15')
 
     # Resolvemos problemas de tipos
     df = df.apply(lambda x: x.str.strip() if x.dtype == "object" else x)
@@ -181,7 +181,7 @@ def data_clean():
     # Aplica la función "convert_month_to_number" a la columna "fecha" usando la función .apply()
     df1["fecha"] = df1["fecha"].apply(convert_month_to_number)
 
-    df1.to_csv('tabla_import_limpio.csv', sep = ';', index = False)
+    df1.to_csv('./files/tabla_import_limpio.csv', sep = ';', index = False)
 
     # Limpieza de dataset de tabla_covid
 
