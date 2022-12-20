@@ -10,7 +10,7 @@
                 <h1>Trabajo Final</h1>
                 <h2>Bienvenido a la pagina del estudio</h2>
             </div>
-            <div id="grupo" class="grupo"></div>
+            <div id="logo" class="logo"></div>
             <div id="grupo_nombre" class="grupo_nombre">
                 <h3>Miembros del grupo</h3>
                 <p>Adrián Ruiz Esteban</p>
@@ -91,70 +91,68 @@
         
   </body>
   <style>
-    body {
-        background-color: #cccccc;
+            body {
+                background-color: #eeeeee;
+                height: 100%;
 
-        height: 100%;
+                /* Center and scale the image nicely */
+                background-repeat: no-repeat;
+                background-size: cover;
+            }
 
-    /* Center and scale the image nicely */
-        background-repeat: no-repeat;
-        background-size: cover;
-    }
+            .encabezado {
+                background-color: rgba(117, 174, 240, 0.8);
+                display: flex;
+            }
 
-    .encabezado {
-        background-color: rgb(211, 211, 211, 0.8);
-        display: flex;
-    }
+            .cola {
+                background-color: rgba(117, 174, 240, 0.8);
+                display: flex;
+                bottom:0px;
+                position:absolute;
+                width:100%;
+                height:50px;   
+            }
 
-    .cola {
-        background-color: rgb(211, 211, 211, 0.8);
-        display: flex;
-        bottom:0px;
-        position:absolute;
-        width:100%;
-        height:50px;   
-}
+            .logo {
+                display: flex;
+                max-width: 150px;
+                max-height: 150px;
+                margin: 10px;
+                position: center;
+                flex: 1;
+            }
 
-    .logo {
-        display: flex;
-        max-width: 150px;
-        max-height: 150px;
-        margin: 10px;
-        position: center;
-        flex: 1;
-    }
+            .titulo {
+                flex: 2;
+                max-width: 100%;
+            }
 
-    .titulo {
-        flex: 2;
-        max-width: 100%;
-    }
+            .grupo {
+                flex: 3;
+            }
 
-    .grupo {
-        flex: 3;
-    }
+            .grupo_nombres {
+                flex: 4;
+                text-align: right;
+            }
+            .grupo_correo {
+                flex: 5;
+                text-align: left;
+            }
 
-    .grupo_nombres {
-        flex: 4;
-        text-align: right;
-    }
-    .grupo_correo {
-        flex: 5;
-        text-align: left;
-    }
+            .contenido {
+                min-height: 70vh;
+                width: 100%;
+            }
 
-    .contenido {
-        min-height: 70vh;
-        width: 100%;
-        background-color: rgba(238, 235, 235, 0.5);
-    }
+            .url1 {
+                flex: 1;
+            }
 
-    .url1 {
-        flex: 1;
-    }
-
-    .url2 {
-        flex: 2;
-    }
+            .url2 {
+                flex: 2;
+            }
             .tabs {
                 display: flex;
             }
@@ -165,15 +163,16 @@
                 outline: none;
                 cursor: pointer;
                 padding: 14px 16px;
-                background-color: #ddd;
+                background-color: rgba(98, 146, 200, 0.8);
+
             }
 
             .tab-button:hover {
-                background-color: #ccc;
+                background-color: rgba(158, 199, 246, 0.8);
             }
 
             .tab-button.active {
-                background-color: #fff;
+                background-color: rgba(117, 174, 240, 0.8);
             }
 
             /* Estilos para el contenido de las pestañas */
