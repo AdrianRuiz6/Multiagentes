@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Proyecto Final</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body class="body">
+        <div id="encabezado" class="encabezado">
+            <div id="titulo">
+                <h1>Trabajo Final</h1>
+                <h2>Bienvenido a la pagina del estudio</h2>
+            </div>
+            <div id="grupo" class="grupo"></div>
+            <div id="grupo_nombre" class="grupo_nombre">
+                <h3>Mienbros del grupo</h3>
+                <p>Adrián Ruiz Esteban</p>
+                <p>Anderson Marroquín Rivas</p>
+                <p>Mario Martin Alonso</p>
+                <p>Pablo Valle Nieto</p>
+            </div>
+            <div id="grupo" class="grupo">
+            </div>
+            <div id="grupo_correo" class="grupo_correo">
+                <h3>Correos</h3>
+                <p>Adrián.Ruiz@alu.uclm.es</p>
+                <p>Anderson.Marroquin@alu.uclm.es</p>
+                <p>Mario.Martin@alu.uclm.es</p>
+                <p>Pablo.Valle@alu.uclm.es</p>
+            </div>
+        </div>
+        <div class="contenido">
+            </div id="tabla1">
+                <ul>
+                    <li>Tabla 1</li>
+                    {% for resultado in resultados %}
+                        <li>{{resultado}}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            
+            </div id="tabla2">
+                <ul>
+                    <li>Tabla 2</li>
+                    {% for resultado in resultados2 %}
+                        <li>{{resultado}}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            
+            </div id="tabla3">
+                <ul>
+                    <li>Tabla 3</li>
+                    {% for resultado in resultados3 %}
+                        <li>{{resultado}}</li>
+                    {% endfor %}
+                </ul>
+            </div >
+            </div id="tabla4">
+                <ul>
+                    <li>Tabla 4</li>
+                    {% for resultado in resultados4 %}
+                        <li>{{resultado}}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+        
+  </body>
+  <style>
+    body {
+        background-color: #cccccc;
+
+        height: 100%;
+
+    /* Center and scale the image nicely */
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+
+    .encabezado {
+        background-color: rgb(211, 211, 211, 0.8);
+        display: flex;
+    }
+
+    .cola {
+        background-color: rgb(211, 211, 211, 0.8);
+        display: flex;
+        bottom:0px;
+        position:absolute;
+        width:100%;
+        height:50px;   
+}
+
+    .logo {
+        display: flex;
+        max-width: 150px;
+        max-height: 150px;
+        margin: 10px;
+        position: center;
+        flex: 1;
+    }
+
+    .titulo {
+        flex: 2;
+        max-width: 100%;
+    }
+
+    .grupo {
+        flex: 3;
+    }
+
+    .grupo_nombres {
+        flex: 4;
+        text-align: right;
+    }
+    .grupo_correo {
+        flex: 5;
+        text-align: left;
+    }
+
+    .contenido {
+        min-height: 70vh;
+        width: 100%;
+        background-color: rgba(238, 235, 235, 0.5);
+    }
+
+    .url1 {
+        flex: 1;
+    }
+
+    .url2 {
+        flex: 2;
+    }
+  </style>
+
+</html>

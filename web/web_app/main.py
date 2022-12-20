@@ -3,10 +3,8 @@
 import psycopg2
 from flask import Flask, render_template
 
+
 app = Flask(__name__)
-
-
-
 
 @app.route('/')
 def index():
@@ -27,11 +25,20 @@ def index():
 # Obtenemos los resultados de la consulta
     resultados = cursor.fetchall()
 
+    cursor.execute("SELECT * FROM tabla_import_limpio")
+    resultados2 = cursor.fetchall()
+
+    cursor.execute("SELECT * FROM tabla_covid_limpio")
+    resultados3 = cursor.fetchall()
+
+    cursor.execute("SELECT * FROM tabla_excel_limpio")
+    resultados4 = cursor.fetchall()
+
 
 # Cerramos la conexión con la base de datos
     conn.close()
-    return render_template('web.html', resultados=resultados)
+    return render_template('web.html', resultados=resultados,
+    resultados2=resultados2, resultados3=resultados3, resultados4=resultados4)
 
 if __name__ == '__main__':
     app.run(debug=True)
-
