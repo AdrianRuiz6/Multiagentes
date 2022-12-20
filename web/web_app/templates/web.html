@@ -29,7 +29,17 @@
             </div>
         </div>
         <div class="contenido">
-            </div id="tabla1">
+            <p></p>
+            <p>Esta es la página web donde se muestran los datos del estudio</p>
+            <p></p>
+            <div class="tabs">
+                <button class="tab-button" onclick="openTab(event, 'tab1')">Tabla de datos 1</button>
+                <button class="tab-button" onclick="openTab(event, 'tab2')">Tabla de datos 2</button>
+                <button class="tab-button" onclick="openTab(event, 'tab3')">Tabla de datos 3</button>
+                <button class="tab-button" onclick="openTab(event, 'tab4')">Tabla de datos 4</button>
+              </div>            
+
+            <div id="tab1" class="tab-content">
                 <ul>
                     <li>Tabla 1</li>
                     {% for resultado in resultados %}
@@ -37,32 +47,50 @@
                     {% endfor %}
                 </ul>
             </div>
-            
-            </div id="tabla2">
+            <div id="tab2" class="tab-content">
                 <ul>
                     <li>Tabla 2</li>
-                    {% for resultado in resultados2 %}
+                    {% for resultado in resultados %}
                         <li>{{resultado}}</li>
                     {% endfor %}
                 </ul>
             </div>
-            
-            </div id="tabla3">
+            <div id="tab3" class="tab-content">
                 <ul>
                     <li>Tabla 3</li>
-                    {% for resultado in resultados3 %}
-                        <li>{{resultado}}</li>
-                    {% endfor %}
-                </ul>
-            </div >
-            </div id="tabla4">
-                <ul>
-                    <li>Tabla 4</li>
-                    {% for resultado in resultados4 %}
+                    {% for resultado in resultados %}
                         <li>{{resultado}}</li>
                     {% endfor %}
                 </ul>
             </div>
+            <div id="tab4" class="tab-content">
+                <ul>
+                    <li>Tabla 4</li>
+                    {% for resultado in resultados %}
+                        <li>{{resultado}}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <script>
+                function openTab(event, tabName) {
+                    // Ocultar todas las pestañas
+                    let i, tabContent, tabLinks;
+                    tabContent = document.getElementsByClassName("tab-content");
+                    for (i = 0; i < tabContent.length; i++) {
+                        tabContent[i].style.display = "none";
+                    }
+
+                    // Quitar la clase "active" de todos los botones de pestaña
+                    tabLinks = document.getElementsByClassName("tab-button");
+                    for (i = 0; i < tabLinks.length; i++) {
+                        tabLinks[i].className = tabLinks[i].className.replace(" active", "");
+                    }
+
+                    // Mostrar la pestaña seleccionada y agregar la clase "active" al botón correspondiente
+                    document.getElementById(tabName).style.display = "block";
+                    event.currentTarget.className += " active";
+                }
+            </script>
         </div>
         
   </body>
@@ -131,6 +159,37 @@
     .url2 {
         flex: 2;
     }
+            .tabs {
+                display: flex;
+            }
+
+            .tab-button {
+                flex: 1;
+                border: none;
+                outline: none;
+                cursor: pointer;
+                padding: 14px 16px;
+                background-color: #ddd;
+            }
+
+            .tab-button:hover {
+                background-color: #ccc;
+            }
+
+            .tab-button.active {
+                background-color: #fff;
+            }
+
+            /* Estilos para el contenido de las pestañas */
+            .tab-content {
+                display: none;
+                padding: 20px;
+                background-color: #fff;
+            }
+
+            .tab-content.active {
+                display: block;
+            }
   </style>
 
 </html>
