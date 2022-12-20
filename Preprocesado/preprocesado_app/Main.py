@@ -31,6 +31,7 @@ def data_clean():
 
     dataframe_1 = pd.read_csv('./files/tabla_ccaa.csv', sep=';', decimal=',', encoding='iso8859_15')
 
+    # Eliminamos las columnas que no nos aportan datos útiles
     del dataframe_1['penetracion_pcto']
     del dataframe_1['valor_miles']
     del dataframe_1['gasto_capita']
@@ -38,8 +39,12 @@ def data_clean():
     del dataframe_1['columna_10']
     del dataframe_1['columna_11']
 
+    # Al descargarlo de la BBDD tiene problemas en cuanto a leer datos de columnas, los cuales
+    # provocan que los datos contengan espacios en blanco innecesarios.
+    # Con la siguiente línea de código nos libramos de ese problema.
     dataframe_1 = dataframe_1.apply(lambda x: x.str.strip() if x.dtype == "object" else x)
 
+    # Eliminamos datos redundantes
     df1_final = dataframe_1.drop(dataframe_1[dataframe_1.ccaa != "Total Nacional"].index)
     del df1_final['ccaa']
     df1_final['producto'].replace({'TOTAL PATATAS': 'PATATAS'}, inplace=True)
@@ -52,7 +57,11 @@ def data_clean():
     df1_final.drop(df1_final[df1_final.producto == "T.FRUTAS FRESCAS"].index, inplace=True)
     df1_final.drop(df1_final[df1_final.producto == "OTRAS FRUTAS FRESCAS"].index, inplace=True)
     df1_final.drop(df1_final[df1_final.producto == "FRUTAS IV GAMA"].index, inplace=True)
+
+    # Reseteamos el indice
     df1_final = df1_final.reset_index(drop = True)
+
+    # Cambiamos el formato de la fecha
     for index, value in df1_final['month'].iteritems():
         mapping = {
             'Enero': 1,
@@ -82,11 +91,13 @@ def data_clean():
     df1_final['fecha'] = df1_final['fecha'].astype('string')
     df1_final['producto'] = df1_final['producto'].astype('string')
 
+    # Cambiamos algunos tipos de columnas finales
     df1_final['precio_medio_kg'] = df1_final['precio_medio_kg'].astype('string')
     df1_final['consumo_capita'] = df1_final['consumo_capita'].astype('string')
     df1_final['precio_medio_kg'] = df1_final['precio_medio_kg'].str.replace(',', '.').astype(float)
     df1_final['consumo_capita'] = df1_final['consumo_capita'].str.replace(',', '.').astype(float)
 
+    # Descarga del fichero final para subirlo a la BBDD posteriormente
     df1_final.to_csv('./files/tabla_spain_limpio.csv', sep = ';', index = False)
 
     # Limpieza de dataset de tabla_excel
@@ -127,7 +138,7 @@ def data_clean():
 
     df = pd.read_csv('./files/tabla_import.csv', sep = ";", decimal = ',', encoding='iso8859_15')
 
-    # Resolvemos problemas de tipos
+    # Resolvemos problemas de valores en las columnas y sus tipos
     df = df.apply(lambda x: x.str.strip() if x.dtype == "object" else x)
     df = df.convert_dtypes()
 
@@ -152,6 +163,8 @@ def data_clean():
     del df1['indicators']
     del df1['value']
 
+    # Eliminamos los datos totales de cada año, ya que solo queremos mantener los datos
+    # de forma mensual
     df1.set_index(['period'], inplace=True)
 
     df1 = df1.drop('Jan.-Dec. 2018')
@@ -160,6 +173,7 @@ def data_clean():
 
     df1 = df1.reset_index()
 
+    # Traducimos los datos
     counts = df1.groupby('product').size()
     for i in counts.index:
         df1['product'] = df1['product'].replace({i:translator.translate(i)})
@@ -187,9 +201,11 @@ def data_clean():
 
     data5 = pd.read_csv('./files/tabla_covid.csv', sep = ";", decimal = ',', encoding='iso8859_15')
 
+    # Descartamos columnas innecesarias
     data5 = data5[['countriesandterritories', 'month', 'year', 'cases', 'deaths',
             'continentexp', 'cumulative_cases_per_100000']]
 
+    # Eliminacion de espacios en blanco
     data5 = data5.apply(lambda x: x.str.strip() if x.dtype == "object" else x)
 
     data5.rename(columns = {'countriesandterritories' : 'pais',
@@ -203,6 +219,7 @@ def data_clean():
 
     data5['fecha'] = data5['mes'].astype(str) + '/' + data5['año'].astype(str)
 
+    # Filtramos para quedarnos solo con los datos de Europa
     data5.set_index(['continente'], inplace=True)
 
     data5 = data5.drop('Africa')
@@ -213,6 +230,7 @@ def data_clean():
 
     data5 = data5[['pais', 'fecha', 'casos', 'muertes', 'incidencia_acumulada']]
 
+    # Convertimos tipos de datos y eliminamos los datos nulos
     data5 = data5.convert_dtypes()
     data5['incidencia_acumulada'] = data5['incidencia_acumulada'].replace('', '0,0')
     data5['incidencia_acumulada']= data5['incidencia_acumulada'].str.replace(',', '.').astype(float)
@@ -287,8 +305,7 @@ def load_from_postgres():
             writer = csv.writer(f, delimiter=';')
             writer.writerow([desc[0] for desc in cur.description])
             writer.writerows(cur)
-        # Cambiar luego por un logging.debuf(...)
-        logging.debug(f'FILE {table}.csv DOWNLOADED PROPERLY.')
+        logging.info(f'FILE {table}.csv DOWNLOADED PROPERLY.')
 
     conn.close()
 
@@ -346,7 +363,7 @@ def upload_to_postgres():
             # Lo convierto a un objeto StringIO para evitar errores con el método
             resto_lineas = io.StringIO(''.join(resto_lineas))
             cur.copy_from(resto_lineas, aux_dict[file], sep = ';')
-        logging.debug(f'File {file} uploaded correctly at Postgresql')
+        logging.info(f'File {file} uploaded correctly at Postgresql')
 
     conn.commit()
     conn.close()
