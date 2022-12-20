@@ -32,7 +32,7 @@ que también ejecutará el código de forma automática.
 
 	docker run --rm --network=host pagina
 	
-Habilitados una dirección del tipo: http://127.0.0.1:5000 que copiaremos y abriremos en el navegador para ver la funcionalidad extra de la práctica.
+Habilitamos una dirección del tipo: http://127.0.0.1:5000 que copiaremos y abriremos en el navegador para ver la funcionalidad extra de la práctica.
 
 Si se quiere comprobar que la base de datos tiene todos los archivos habría que ir a la terminal del contenedor de Postgres y seguir los 
 siguientes pasos:
@@ -40,8 +40,7 @@ siguientes pasos:
 	-Escribir el usuario, el cual es "admin".
 	-"\c postgres".
 	-Escribir la contraseña, la cual es "admin".
-	-"\dt" si queremos ver las tablas incluidas en la base de datos. Deberían estar las siguientes (por ahora la tabla 
-	"tabla_import_limpio" no funciona y, por lo tanto, no muestra nada):
+	-"\dt" si queremos ver las tablas incluidas en la base de datos. Deberían estar las siguientes:
 		-tabla_ccaa
 		-tabla_covid
 		-tabla_covid_limpio
