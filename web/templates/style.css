@@ -1,10 +1,30 @@
+body {
+    background-image: url("background.jpg");
+    background-color: #cccccc;
+
+    height: 100%;
+
+    /* Center and scale the image nicely */
+    background-repeat: no-repeat;
+    background-size: cover;
+}
 
 .encabezado {
-    background-color: lightgray;
+    background-color: rgb(211, 211, 211, 0.8);
     display: flex;
 }
 
+.cola {
+    background-color: rgb(211, 211, 211, 0.8);
+    display: flex;
+    bottom:0px;
+    position:absolute;
+    width:100%;
+    height:50px;   
+}
+
 .logo {
+    display: flex;
     max-width: 150px;
     max-height: 150px;
     margin: 10px;
@@ -19,6 +39,27 @@
 
 .grupo {
     flex: 3;
-    text-align: center;
 }
 
+.grupo_nombres {
+    flex: 4;
+    text-align: right;
+}
+.grupo_correo {
+    flex: 5;
+    text-align: left;
+}
+
+.contenido {
+    min-height: 70vh;
+    width: 100%;
+    background-color: rgba(238, 235, 235, 0.5);
+}
+
+.url1 {
+    flex: 1;
+}
+
+.url2 {
+    flex: 2;
+}
