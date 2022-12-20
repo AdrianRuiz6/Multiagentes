@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Proyecto Final</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="style.css" rel="stylesheet">
+    </head>
+    <body>
+        <div id="encabezado" class="encabezado">
+            <img src="LogoUCLM.png" alt="logo" class="logo">
+            <div id="titulo">
+                <h1>Trabajo Final</h1>
+                <h2>Bienvenido a la pagina del estudio</h2>
+            </div>
+            <div id="grupo" class="grupo">
+                <p>Adrián Ruiz Esteban</p>
+                <p>Anderson Marroquín Rivas</p>
+                <p>Mario Martin Alonso</p>
+                <p>Pablo Valle Nieto</p>
+            </div>
+        </div>
+        <p>Esta es la página web donde se muestran los datos del estudio</p>
+
+
+        <ul>
+            {% for resultado in resultados %}
+            <li>{{resultado}}</li>
+            {% endfor %}
+        </ul>
+        
+        <style>
+            table {
+            display: block;
+            width: 100%;
+            overflow-x: auto;
+            }
+        
+            td {
+            padding: 10px;
+            border: 1px solid #ccc;
+            }
+        </style>
+  </body>
+</html>
