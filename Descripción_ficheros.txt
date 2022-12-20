@@ -32,3 +32,19 @@ descargar datos de la base de datos en ambas).
 	|		construcción del contenedor de la fase de transformación y limpieza de datos.
 	|
 	|	-> requirements.txt: Fichero con las librerías empleadas que permite su instalación al crear la imagen.
+
+	-> Web
+	|
+	|	-> Main.py: En este fichero se encuentran los procesos necesarios para obtener los datos almacenados en la base de 
+	|		datos ya transformados y limpios, optenidos en la fase de preprocesado. Una vez optenidos los datos de las 
+	|		diferentes tablas, ficheros realizamos la limpieza de dichos datasets con la librería pandas. Tras recuperar
+	|		los datos, se invoca la template de "web.html" pasandole los valores de las tablas como resultados, resultados2, 
+	|		resultados3, resultados4.
+	|
+	|	-> Dockerfile: En este fichero dockerfile se encuentran los distintos comandos y procesos necesarios para la
+	|		construcción del contenedor de la fase de recuperacion y .
+	|
+	|	-> requirements.txt: Fichero con las librerías empleadas que permite su instalación al crear la imagen.
+	|
+	|	-> web.html: Este archivo contiene el codigo HTML de la pagina web donde se mostrarán los datos de las tablas, asi como la
+	|		hoja de estilo CSS que le da formato a la pagina.
