@@ -24,6 +24,15 @@ que también ejecutará el código de forma automática.
 	docker build -t preprocesado ./Preprocesado
 
 	docker run --rm --network=host preprocesado
+	
+Por último, como funcionalidad extra, y una vez terminada la ejecución de la anterior fase por completo, iniciamos la imagen y contenedor de esta fase, 
+que también ejecutará el código de forma automática.
+
+	docker build -t pagina ./web
+
+	docker run --rm --network=host pagina
+	
+Habilitados una dirección del tipo: http://127.0.0.1:5000 que copiaremos y abriremos en el navegador para ver la funcionalidad extra de la práctica.
 
 Si se quiere comprobar que la base de datos tiene todos los archivos habría que ir a la terminal del contenedor de Postgres y seguir los 
 siguientes pasos:
