@@ -41,6 +41,7 @@
 
             <div id="tab1" class="tab-content">
                 <ul>
+                    <li>fecha, producto, precio medio por kg, consumo por capita</li>
                     {% for resultado in resultados %}
                         <li>{{resultado}}</li>
                     {% endfor %}
@@ -48,6 +49,7 @@
             </div>
             <div id="tab2" class="tab-content">
                 <ul>
+                    <li>fecha, pais, producto, flow, valor en euros, cantidad por 100kg </li>
                     {% for resultado in resultados2 %}
                         <li>{{resultado}}</li>
                     {% endfor %}
@@ -55,6 +57,7 @@
             </div>
             <div id="tab3" class="tab-content">
                 <ul>
+                    <li>fecha, pais, casos por mes, muertes por mes, incidencia media por mes</li>
                     {% for resultado in resultados3 %}
                         <li>{{resultado}}</li>
                     {% endfor %}
@@ -62,6 +65,7 @@
             </div>
             <div id="tab4" class="tab-content">
                 <ul>
+                    <li>producto, precio medio, valor miles, volumen</li>
                     {% for resultado in resultados4 %}
                         <li>{{resultado}}</li>
                     {% endfor %}
