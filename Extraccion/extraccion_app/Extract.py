@@ -39,7 +39,7 @@ def extract_web_scrapping():
     caps = webdriver.DesiredCapabilities.CHROME
     try:
         driver = webdriver.Remote(
-            'http://localhost:4444',
+            'http://localhost:4444/wd/hub',
             desired_capabilities=caps
         )
     except:
